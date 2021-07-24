@@ -27,18 +27,10 @@ public class configs : MonoBehaviour
     {
         panelConfig.SetActive(true);
         btnCloseConfig.gameObject.SetActive(true);
-        Aguarda();
-        Time.timeScale = 0;  
-    }
-    
-    IEnumerator Aguarda()
-    {
-        yield return new WaitForSeconds(0.05f);
     }
 
     void ClosePanel()
     {
-        Time.timeScale = 1;
         panelConfig.SetActive(false);
         btnCloseConfig.gameObject.SetActive(false);
     }

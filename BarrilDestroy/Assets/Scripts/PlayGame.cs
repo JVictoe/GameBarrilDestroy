@@ -22,7 +22,7 @@ public class PlayGame : MonoBehaviour
 
     void PlayGames()
     {
-        SceneManager.LoadScene("2 - Game", LoadSceneMode.Single);
+        SceneManager.LoadScene("2 - Game1");
         //Destroy(_button.gameObject);
     }
 

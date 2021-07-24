@@ -46,9 +46,10 @@ public class BarraDeTempo : MonoBehaviour
 
     public void Comecou()
     {
+        AudioManager.instance.PlayMusic();
         barraTempo.minValue = 0;
         barraTempo.maxValue = tempoMaximo;
-        barraTempo.value = tempoMaximo;
+        barraTempo.value = tempoMaximo; 
 
         comecou = true;
     }

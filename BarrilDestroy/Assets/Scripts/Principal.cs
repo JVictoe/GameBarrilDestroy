@@ -8,9 +8,10 @@ using TMPro;
 public class Principal : MonoBehaviour
 {
 
-    public GameObject jogadorFelpudo;
-    public GameObject felpudoIdle;
-    public GameObject felpudoBate;
+    [SerializeField] private GameObject jogadorFelpudo;
+    [SerializeField] private Rigidbody2D jogadorFelpudoR;
+    [SerializeField] private GameObject felpudoIdle;
+    [SerializeField] private GameObject felpudoBate;
 
     [SerializeField] private Sprite[] _iamgeFundo = default;
     [SerializeField] private GameObject panelConfig = default;
@@ -53,10 +54,10 @@ public class Principal : MonoBehaviour
             btnCloseConfig[i].gameObject.SetActive(true);
         }
         
-        Invoke(nameof(Pausou), 0.3f);
+        Invoke(nameof(Pause), 0.3f);
     }
 
-    void Pausou()
+    void Pause()
     {
         pausaTudo = false;
         Time.timeScale = 0;
@@ -78,6 +79,7 @@ public class Principal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AudioManager.instance.PlayMusic();
         moreLife = true;
         escalaJogadorHorizontal = transform.localScale.x;
 
@@ -254,7 +256,6 @@ public class Principal : MonoBehaviour
         if (score == 500) moreLife = true;
         if (score == 600) moreLife = true;
         if (score == 700) moreLife = true;
-        if (score >= 10) _iamgeFundo[0] = _iamgeFundo[1]; 
 
         NewLife();
         pontuacao.text = score.ToString();
@@ -269,26 +270,29 @@ public class Principal : MonoBehaviour
         felpudoBate.GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.35f, 0.35f);
         felpudoIdle.GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.35f, 0.35f);
 
-        jogadorFelpudo.GetComponent<Rigidbody2D>().isKinematic = false;
+        jogadorFelpudoR.isKinematic = false;
         
 
         if (ladoPersonagem)
         {
-            jogadorFelpudo.GetComponent<Rigidbody2D>().AddTorque(300.0f);
-            jogadorFelpudo.GetComponent<Rigidbody2D>().velocity = new Vector2(5.0f, 3.0f);
+            jogadorFelpudoR.AddTorque(300.0f);
+            jogadorFelpudoR.velocity = new Vector2(5.0f, 3.0f);
         }
         else
         {
-            jogadorFelpudo.GetComponent<Rigidbody2D>().AddTorque(-300.0f);
-            jogadorFelpudo.GetComponent<Rigidbody2D>().velocity = new Vector2(-5.0f, 3.0f);
+            jogadorFelpudoR.AddTorque(-300.0f);
+            jogadorFelpudoR.velocity = new Vector2(-5.0f, 3.0f);
         }
-        GetComponent<AudioSource>().PlayOneShot(somPerde);
-        Invoke("RecarregaCena", 2);
+
+        AudioManager.instance.StopSound();
+        AudioManager.instance.PlayAudio(2);
+
+        Invoke(nameof(RecarregaCena), 2);
     }
 
     void RecarregaCena()
     {
-        SceneManager.LoadScene("2 - Game", LoadSceneMode.Single);
+        SceneManager.LoadScene("2 - Game1");
     }
 
     void NewLife()
